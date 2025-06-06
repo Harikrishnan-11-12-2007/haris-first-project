@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Explorer - Class 12 Students</title>
+    <style>
+        /* (Keep all your existing CSS styles here - no changes needed) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            font-size: 16px; /* Default font size */
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            max-width: 400px;
+            margin: 10vh auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .login-container {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .dark .login-header h1 {
+            color: #74b9ff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .dark .form-group label {
+            color: #ecf0f1;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .dark .form-group input, .dark .form-group select, .dark .form-group textarea {
+            background: #34495e;
+            color: white;
+            border-color: #576574;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .password-requirements {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* Main Page Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .header {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .dark .logo {
+            color: #74b9ff;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .feature-card {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .nav-btn {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .logout-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* College List Styles */
+        .college-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .college-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .dark .college-card {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .star-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ddd;
+        }
+
+        .star-btn.active {
+            color: #f39c12;
+        }
+
+        .compare-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .compare-section {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .compare-table th, .compare-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .compare-table th {
+            background-color: #f2f2f2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .dark .modal-content {
+            background: #34495e;
+            color: white;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* New Styles */
+        .about-us-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .rating-stars {
+            display: inline-block;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .rating-stars span {
+            color: #ddd;
+        }
+
+        .rating-stars span.active {
+            color: #ffc107;
+        }
+
+        .things-to-do-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .things-to-do-list li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .things-to-do-list li {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .college-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="container">
+            <div class="login-container">
+                <div class="login-header">
+                    <h1>🎓 Career Explorer</h1>
+                    <p>Your journey to the perfect career starts here</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                    <button type="button" class="btn btn-secondary" onclick="showCreateAccount()">Create New Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Account Page -->
+    <div id="createAccountPage" class="page">
+        <div class="container">
+            <div class="login-container">
+                <div class="login-header">
+                    <h1>Create Account</h1>
+                    <p>Join thousands of students exploring their future</p>
+                </div>
+                <form id="createAccountForm">
+                    <div class="form-group">
+                        <label for="newUsername">Username</label>
+                        <input type="text" id="newUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Password</label>
+                        <input type="password" id="newPassword" required>
+                        <div class="password-requirements">
+                            Password must be at least 6 characters long and contain:
+                            • One uppercase letter
+                            • One number
+                            • One special character
+                        </div>
+                        <div id="passwordError" class="error"></div>
+                    </div>
+                    <button type="submit" class="btn">Create Account</button>
+                    <button type="button" class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setup Page -->
+    <div id="setupPage" class="page">
+        <div class="container">
+            <div class="login-container" style="max-width: 600px;">
+                <div class="login-header">
+                    <h1>Complete Your Profile</h1>
+                    <p>Tell us about yourself to get personalized recommendations</p>
+                </div>
+                <form id="setupForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth *</label>
+                        <input type="date" id="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="completionYear">Year of Class 12 Completion *</label>
+                        <input type="number" id="completionYear" min="2020" max="2030" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="degree">Degree you want to pursue *</label>
+                        <select id="degree" required>
+                            <option value="">Select Degree</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Commerce">Commerce</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Science">Science</option>
+                            <option value="Law">Law</option>
+                            <option value="Management">Management</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hobbies">Hobbies (Optional)</label>
+                        <textarea id="hobbies" rows="3" placeholder="Tell us about your interests and hobbies"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country (Optional)</label>
+                        <select id="country">
+                            <option value="">Select Country</option>
+                            <option value="India">India</option>
+                            <option value="USA">USA</option>
+                            <option value="UK">UK</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Complete Setup</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div id="mainPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="logo">🎓 Career Explorer</div>
+                <div class="header-icons">
+                    <button class="icon-btn" onclick="showEditProfile()" title="Edit Profile">👤</button>
+                    <button class="icon-btn" onclick="showSettings()" title="Settings">⚙</button>
+                </div>
+            </header>
+
+            <div class="main-content">
+                <div class="feature-card" onclick="showExploreColleges()">
+                    <div class="feature-icon">🏛</div>
+                    <h2>Explore Colleges</h2>
+                    <p>Discover top colleges and universities from India and around the world</p>
+                </div>
+                <div class="feature-card" onclick="showCompareColleges()">
+                    <div class="feature-icon">⚖</div>
+                    <h2>Compare Colleges</h2>
+                    <p>Compare colleges side by side to make informed decisions</p>
+                </div>
+                <div class="feature-card" onclick="showAboutUs()">
+                    <div class="feature-icon">ℹ️</div>
+                    <h2>About Us</h2>
+                    <p>Learn more about our mission and provide feedback</p>
+                </div>
+                <div class="feature-card" onclick="showThingsToDo()">
+                    <div class="feature-icon">✔️</div>
+                    <h2>Things To Do</h2>
+                    <p>Important exams and application deadlines</p>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="nav-btn" onclick="showFavorites()">
+                    ⭐ Favorites
+                </button>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Explore Colleges Page -->
+    <div id="exploreCollegesPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="logo">🏛 Explore Colleges</div>
+                <button class="icon-btn" onclick="showMainPage()">🏠</button>
+            </header>
+
+            <div style="margin-bottom: 10px;">
+                <input type="text" id="collegeSearch" placeholder="Search colleges..." onkeyup="filterColleges()">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                <select id="sortSelect" onchange="filterColleges()">
+                    <option value="">Sort By</option>
+                    <option value="name">Name (A-Z)</option>
+                    <option value="ranking">Global Ranking (Ascending)</option>
+                </select>
+                <input type="text" id="cityFilter" placeholder="City" onkeyup="filterColleges()">
+                <input type="text" id="stateFilter" placeholder="State" onkeyup="filterColleges()">
+                <input type="text" id="countryFilter" placeholder="Country" onkeyup="filterColleges()">
+            </div>
+
+            <div id="collegesList" class="college-grid"></div>
+        </div>
+    </div>
+
+    <!-- Compare Colleges Page -->
+    <div id="compareCollegesPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="logo">⚖ Compare Colleges</div>
+                <button class="icon-btn" onclick="showMainPage()">🏠</button>
+            </header>
+            <div class="compare-section">
+                <h2>Select Colleges to Compare</h2>
+                <div style="display: flex; gap: 20px; margin: 20px 0;">
+                    <select id="college1Select" onchange="loadComparison()">
+                        <option value="">Select First College</option>
+                    </select>
+                    <input type="text" id="college1Search" placeholder="Search College 1" onkeyup="filterCollegeSelect('college1Select', 'college1Search')">
+                    <select id="college2Select" onchange="loadComparison()">
+                        <option value="">Select Second College</option>
+                    </select>
+                     <input type="text" id="college2Search" placeholder="Search College 2" onkeyup="filterCollegeSelect('college2Select', 'college2Search')">
+                </div>
+                <div id="comparisonResult">
+                    <!-- Comparison table will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Page -->
+    <div id="favoritesPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="logo">⭐ Your Favorites</div>
+                <button class="icon-btn" onclick="showMainPage()">🏠</button>
+            </header>
+            <div id="favoritesList" class="college-grid"></div>
+        </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="settingsPage" class="page">
+        <div class="container">
+            <div class="login-container">
+                <div class="login-header">
+                    <h1>⚙ Settings</h1>
+                </div>
+                <div class="form-group">
+                    <label>Theme</label>
+                    <select id="themeSelect" onchange="changeTheme()">
+                        <option value="light">Light Background</option>
+                        <option value="dark">Dark Background</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Font Size</label>
+                    <select id="fontSizeSelect" onchange="changeFontSize()">
+                        <option value="14px">Small</option>
+                        <option value="16px">Normal</option>
+                        <option value="18px">Large</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notifications</label>
+                    <select id="notificationSelect" onchange="toggleNotifications()">
+                        <option value="on">On</option>
+                        <option value="off">Off</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label for="newPasswordSettings">Change Password</label>
+                    <input type="password" id="newPasswordSettings" placeholder="New Password">
+                    <button type="button" class="btn btn-secondary" onclick="changePassword()">Change Password</button>
+                    <div id="passwordChangeMessage" class="error"></div>
+                </div>
+                <button class="btn" onclick="showMainPage()">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="aboutUsPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="logo">ℹ️ About Us</div>
+                <button class="icon-btn" onclick="showMainPage()">🏠</button>
+            </header>
+            <div class="about-us-container">
+                <h2>About Career Explorer</h2>
+                <p>We are dedicated to helping students like you find the perfect college and career path.</p>
+                <p>Your feedback is important to us!</p>
+                <h3>Rate Us:</h3>
+                <div class="rating-stars">
+                    <span class="star" data-rating="1">☆</span>
+                    <span class="star" data-rating="2">☆</span>
+                    <span class="star" data-rating="3">☆</span>
+                    <span class="star" data-rating="4">☆</span>
+                    <span class="star" data-rating="5">☆</span>
+                </div>
+                <textarea id="feedbackText" rows="4" cols="50" placeholder="Tell us what you think..."></textarea><br>
+                <button class="btn" onclick="submitFeedback()">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Things To Do Page -->
+    <div id="thingsToDoPage" class="page">
+        <div class="container">
+            <header class="header">
+                <div class="logo">✔️ Things To Do</div>
+                <button class="icon-btn" onclick="showMainPage()">🏠</button>
+            </header>
+            <h2>Important Exams and Applications</h2>
+            <ul id="thingsToDoList" class="things-to-do-list">
+                <li>Prepare for JEE Main/Advanced (Engineering)</li>
+                <li>Prepare for NEET (Medical)</li>
+                <li>Check application deadlines for your target colleges</li>
+                <!-- Add more items here -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome back!</h2>
+            <p id="welcomeMessage"></p>
+            <button class="btn" onclick="closeWelcomeModal()">Continue</button>
+        </div>
+    </div>
+
+
+    <script>
+        // Database simulation using localStorage
+        let users = JSON.parse(localStorage.getItem('users') || '{}');
+        let currentUser = null;
+
+        // Sample college database
+        const colleges = [
+            {
+                id: 1,
+                name: "Indian Institute of Technology Delhi",
+                city: "New Delhi",
+                state: "Delhi",
+                country: "India",
+                nirfRanking: 2,
+                globalRanking: 185,
+                description: "Premier engineering institute known for excellence in technology and research.",
+                rating: 4.5,
+                fees: "₹220,000/year", // Example fee
+                acceptanceRate: "2%", // Example acceptance rate
+                studentFacultyRatio: "10:1", // Example ratio
+                website: "#" // Placeholder for website link
+            },
+            {
+                id: 2,
+                name: "Indian Institute of Science",
+                city: "Bangalore",
+                state: "Karnataka",
+                country: "India",
+                nirfRanking: 1,
+                globalRanking: 155,
+                description: "India's leading institute for advanced scientific and technological research.",
+                rating: 4.8,
+                fees: "₹70,000/year",
+                acceptanceRate: "5%",
+                studentFacultyRatio: "8:1",
+                website: "#"
+            },
+            {
+                id: 3,
+                name: "Massachusetts Institute of Technology",
+                city: "Cambridge",
+                state: "Massachusetts",
+                country: "USA",
+                nirfRanking: "N/A",
+                globalRanking: 1,
+                description: "World's leading university in technology, engineering, and physical sciences.",
+                rating: 4.9,
+                fees: "$55,000/year",
+                acceptanceRate: "4%",
+                studentFacultyRatio: "3:1",
+                website: "#"
+            },
+            {
+                id: 4,
+                name: "Stanford University",
+                city: "Stanford",
+                state: "California",
+                country: "USA",
+                nirfRanking: "N/A",
+                globalRanking: 3,
+                description: "Prestigious private research university known for innovation and entrepreneurship.",
+                rating: 4.7,
+                fees: "$58,000/year",
+                acceptanceRate: "5%",
+                studentFacultyRatio: "4:1",
+                website: "#"
+            },
+            {
+                id: 5,
+                name: "Indian Institute of Technology Bombay",
+                city: "Mumbai",
+                state: "Maharashtra",
+                country: "India",
+                nirfRanking: 3,
+                globalRanking: 172,
+                description: "Leading technical institute with strong industry connections.",
+                rating: 4.6,
+                fees: "₹210,000/year",
+                acceptanceRate: "3%",
+                studentFacultyRatio: "9:1",
+                website: "#"
+            },
+            {
+                id: 6,
+                name: "University of Oxford",
+                city: "Oxford",
+                state: "Oxfordshire",
+                country: "UK",
+                nirfRanking: "N/A",
+                globalRanking: 5,
+                description: "One of the oldest and most prestigious universities in the world.",
+                rating: 4.8,
+                fees: "£35,000/year",
+                acceptanceRate: "17.5%",
+                studentFacultyRatio: "11:1",
+                website: "#"
+            },
+            {
+                id: 7,
+                name: "All India Institute of Medical Sciences",
+                city: "New Delhi",
+                state: "Delhi",
+                country: "India",
+                nirfRanking: 1,
+                globalRanking: 251,
+                description: "India's premier medical institute and hospital.",
+                rating: 4.9,
+                fees: "₹2,000/year",
+                acceptanceRate: "0.1%",
+                studentFacultyRatio: "1:1",
+                website: "#"
+            },
+            {
+                id: 8,
+                name: "University of Cambridge",
+                city: "Cambridge",
+                state: "Cambridgeshire",
+                country: "UK",
+                nirfRanking: "N/A",
+                globalRanking: 7,
+                description: "Historic university renowned for academic excellence and research.",
+                rating: 4.7,
+                fees: "£32,000/year",
+                acceptanceRate: "21%",
+                studentFacultyRatio: "12:1",
+                website: "#"
+            },
+            {
+                id: 9,
+                name: "California Institute of Technology",
+                city: "Pasadena",
+                state: "California",
+                country: "USA",
+                nirfRanking: "N/A",
+                globalRanking: 9,
+                description: "Leading science and engineering institute.",
+                rating: 4.9,
+                fees: "$59,000/year",
+                acceptanceRate: "7%",
+                studentFacultyRatio: "3:1",
+                website: "#"
+            },
+            {
+                id: 10,
+                name: "ETH Zurich",
+                city: "Zurich",
+                state: null,
+                country: "Switzerland",
+                nirfRanking: "N/A",
+                globalRanking: 11,
+                description: "Swiss Federal Institute of Technology.",
+                rating: 4.6,
+                fees: "CHF 1,500/year",
+                acceptanceRate: "27%",
+                studentFacultyRatio: "14:1",
+                website: "#"
+            },
+            {
+                id: 11,
+                name: "National University of Singapore",
+                city: "Singapore",
+                state: null
+,
+                country: "Singapore",
+                nirfRanking: "N/A",
+                globalRanking: 19,
+                description: "Singapore's flagship university.",
+                rating: 4.7,
+                fees: "SGD 30,000/year",
+                acceptanceRate: "20%",
+                studentFacultyRatio: "10:1",
+                website: "#"
+            },
+            {
+                id: 12,
+                name: "Peking University",
+                city: "Beijing",
+                state: null,
+                country: "China",
+                nirfRanking: "N/A",
+                globalRanking: 22,
+                description: "One of China's top universities.",
+                rating: 4.5,
+                fees: "CNY 45,000/year",
+                acceptanceRate: "0.5%",
+                studentFacultyRatio: "7:1",
+                website: "#"
+            },
+            {
+                id: 13,
+                name: "Indian Institute of Technology Madras",
+                city: "Chennai",
+                state: "Tamil Nadu",
+                country: "India",
+                nirfRanking: 4,
+                globalRanking: 280,
+                description: "A leading engineering institute known for its research and academic excellence.",
+                rating: 4.4,
+                fees: "₹200,000/year",
+                acceptanceRate: "2.5%",
+                studentFacultyRatio: "11:1",
+                website: "#"
+            },
+            {
+                id: 14,
+                name: "Indian Institute of Technology Kanpur",
+                city: "Kanpur",
+                state: "Uttar Pradesh",
+                country: "India",
+                nirfRanking: 5,
+                globalRanking: 350,
+                description: "An esteemed engineering institute with a strong focus on innovation and technology.",
+                rating: 4.3,
+                fees: "₹210,000/year",
+                acceptanceRate: "3%",
+                studentFacultyRatio: "12:1",
+                website: "#"
+            },
+            {
+                id: 15,
+                name: "Jawaharlal Nehru University",
+                city: "New Delhi",
+                state: "Delhi",
+                country: "India",
+                nirfRanking: 2,
+                globalRanking: 400,
+                description: "A renowned central university known for its liberal arts and social sciences programs.",
+                rating: 4.2,
+                fees: "₹5,000/year",
+                acceptanceRate: "1%",
+                studentFacultyRatio: "15:1",
+                website: "#"
+            },
+            {
+                id: 16,
+                name: "Banaras Hindu University",
+                city: "Varanasi",
+                state: "Uttar Pradesh",
+                country: "India",
+                nirfRanking: 6,
+                globalRanking: 450,
+                description: "A central university with a wide range of programs in arts, sciences, and technology.",
+                rating: 4.1,
+                fees: "₹8,000/year",
+                acceptanceRate: "1.5%",
+                studentFacultyRatio: "14:1",
+                website: "#"
+            }
+        ];
+
+        // Page navigation functions (no changes needed)
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function showLogin() {
+            showPage('loginPage');
+        }
+
+        function showCreateAccount() {
+            showPage('createAccountPage');
+        }
+
+        function showSetup() {
+            showPage('setupPage');
+        }
+
+        function showMainPage() {
+            showPage('mainPage');
+        }
+
+        function showExploreColleges() {
+            showPage('exploreCollegesPage');
+            filterColleges(); // Call filterColleges to display initial list
+        }
+
+        function showCompareColleges() {
+            showPage('compareCollegesPage');
+            populateCollegeSelects();
+        }
+
+        function showFavorites() {
+            showPage('favoritesPage');
+            displayFavorites();
+        }
+
+        function showAboutUs() {
+            showPage('aboutUsPage');
+        }
+
+        function showThingsToDo() {
+            showPage('thingsToDoPage');
+        }
+
+        function showEditProfile() {
+            if (currentUser) {
+                // Pre-fill the form with current user data
+                document.getElementById('fullName').value = currentUser.fullName || '';
+                document.getElementById('email').value = currentUser.email || '';
+                document.getElementById('dob').value = currentUser.dob || '';
+                document.getElementById('completionYear').value = currentUser.completionYear || '';
+                document.getElementById('degree').value = currentUser.degree || '';
+                document.getElementById('hobbies').value = currentUser.hobbies || '';
+                document.getElementById('country').value = currentUser.country || '';
+            }
+            showPage('setupPage');
+        }
+
+        function showSettings() {
+            showPage('settingsPage');
+            document.getElementById('themeSelect').value = localStorage.getItem('theme') || 'light';
+            document.getElementById('fontSizeSelect').value = localStorage.getItem('fontSize') || '16px';
+            document.getElementById('notificationSelect').value = localStorage.getItem('notifications') || 'on';
+        }
+
+        // Authentication functions (no changes needed)
+        function validatePassword(password) {
+            const requirements = {
+                length: password.length >= 6,
+                uppercase: /[A-Z]/.test(password),
+                number: /\d/.test(password),
+                special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            };
+
+            return requirements.length && requirements.uppercase && requirements.number && requirements.special;
+        }
+
+        // Login form handler (no changes needed)
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (users[username] && users[username].password === password) {
+                currentUser = users[username];
+                document.getElementById('welcomeMessage').textContent = `Hello, ${currentUser.fullName || username}!`;
+                document.getElementById('welcomeModal').style.display = 'block';
+            } else {
+                alert('Invalid username or password!');
+            }
+        });
+
+        // Create account form handler (no changes needed)
+        document.getElementById('createAccountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const errorDiv = document.getElementById('passwordError');
+
+            if (users[username]) {
+                alert('Username already exists!');
+                return;
+            }
+
+            if (!validatePassword(password)) {
+                errorDiv.textContent = 'Password does not meet requirements!';
+                return;
+            }
+
+            errorDiv.textContent = '';
+            users[username] = { username, password, favorites: [] };
+            localStorage.setItem('users', JSON.stringify(users));
+            currentUser = users[username];
+            showSetup();
+        });
+
+        // Setup form handler (no changes needed)
+        document.getElementById('setupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (currentUser) {
+                currentUser.fullName = document.getElementById('fullName').value;
+                currentUser.email = document.getElementById('email').value;
+                currentUser.dob = document.getElementById('dob').value;
+                currentUser.completionYear = document.getElementById('completionYear').value;
+                currentUser.degree = document.getElementById('degree').value;
+                currentUser.hobbies = document.getElementById('hobbies').value;
+                currentUser.country = document.getElementById('country').value;
+
+                localStorage.setItem('users', JSON.stringify(users));
+                showMainPage();
+            }
+        });
+
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
+            showMainPage();
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            showLogin();
+        }
+
+        // College display functions
+        function displayColleges(collegesToDisplay = colleges) {
+            const container = document.getElementById('collegesList');
+            container.innerHTML = '';
+
+            if (collegesToDisplay.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No colleges found.</p>';
+                return;
+            }
+
+            collegesToDisplay.forEach(college => {
+                const isStarred = currentUser && currentUser.favorites.includes(college.id);
+                const collegeCard = document.createElement('div');
+                collegeCard.className = 'college-card';
+                collegeCard.innerHTML = `
+                    <button class="star-btn ${isStarred ? 'active' : ''}" onclick="toggleFavorite(${college.id})">
+                        ${isStarred ? '⭐' : '☆'}
+                    </button>
+                    <h3>${college.name}</h3>
+                    <p><strong>Location:</strong> ${college.city}, ${college.state}, ${college.country}</p>
+                    <p><strong>NIRF Ranking:</strong> ${college.nirfRanking}</p>
+                    <p><strong>Global Ranking:</strong> ${college.globalRanking}</p>
+                    <p><strong>Description:</strong> ${college.description}</p>
+                    <p><strong>Fees:</strong> ${college.fees}</p>
+                    <p><strong>Acceptance Rate:</strong> ${college.acceptanceRate}</p>
+                    <p><strong>Student-Faculty Ratio:</strong> ${college.studentFacultyRatio}</p>
+                    <p><strong>Rating:</strong> ${college.rating ? college.rating + ' ⭐' : 'Not Rated'}</p>
+                    <a href="${college.website}" target="_blank">Visit Website</a>
+                `;
+                container.appendChild(collegeCard);
+            });
+        }
+
+        function displayFavorites() {
+            const container = document.getElementById('favoritesList');
+            container.innerHTML = '';
+
+            if (!currentUser || !currentUser.favorites.length) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No favorites added yet!</p>';
+                return;
+            }
+
+            const favoriteColleges = colleges.filter(college => currentUser.favorites.includes(college.id));
+
+            favoriteColleges.forEach(college => {
+                const collegeCard = document.createElement('div');
+                collegeCard.className = 'college-card';
+                collegeCard.innerHTML = `
+                    <button class="star-btn active" onclick="toggleFavorite(${college.id})">⭐</button>
+                    <h3>${college.name}</h3>
+                    <p><strong>Location:</strong> ${college.city}, ${college.state}, ${college.country}</p>
+                    <p><strong>NIRF Ranking:</strong> ${college.nirfRanking}</p>
+                    <p><strong>Global Ranking:</strong> ${college.globalRanking}</p>
+                    <p><strong>Description:</strong> ${college.description}</p>
+                    <p><strong>Fees:</strong> ${college.fees}</p>
+                    <p><strong>Acceptance Rate:</strong> ${college.acceptanceRate}</p>
+                    <p><strong>Student-Faculty Ratio:</strong> ${college.studentFacultyRatio}</p>
+                    <p><strong>Rating:</strong> ${college.rating ? college.rating + ' ⭐' : 'Not Rated'}</p>
+                     <a href="${college.website}" target="_blank">Visit Website</a>
+                `;
+                container.appendChild(collegeCard);
+            });
+        }
+
+        function toggleFavorite(collegeId) {
+            if (!currentUser) return;
+
+            const index = currentUser.favorites.indexOf(collegeId);
+            if (index > -1) {
+                currentUser.favorites.splice(index, 1);
+            } else {
+                currentUser.favorites.push(collegeId);
+            }
+
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Refresh current view
+            const currentPage = document.querySelector('.page.active').id;
+            if (currentPage === 'exploreCollegesPage') {
+                filterColleges(); // Use filterColleges to refresh
+            } else if (currentPage === 'favoritesPage') {
+                displayFavorites();
+            }
+        }
+
+        // Compare colleges functions
+        function populateCollegeSelects() {
+            const select1 = document.getElementById('college1Select');
+            const select2 = document.getElementById('college2Select');
+
+            select1.innerHTML = '<option value="">Select First College</option>';
+            select2.innerHTML = '<option value="">Select Second College</option>';
+
+            colleges.forEach(college => {
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
+                option1.value = option2.value = college.id;
+                option1.textContent = option2.textContent = college.name;
+                select1.appendChild(option1);
+                select2.appendChild(option2);
+            });
+        }
+
+        function loadComparison() {
+            const college1Id = document.getElementById('college1Select').value;
+            const college2Id = document.getElementById('college2Select').value;
+            const container = document.getElementById('comparisonResult');
+
+            if (!college1Id || !college2Id) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const college1 = colleges.find(c => c.id == college1Id);
+            const college2 = colleges.find(c => c.id == college2Id);
+
+            // Create the table
+            let tableHTML = `
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>${college1.name}</th>
+                            <th>${college2.name}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Location</td>
+                            <td>${college1.city}, ${college1.state}, ${college1.country}</td>
+                            <td>${college2.city}, ${college2.state}, ${college2.country}</td>
+                        </tr>
+                        <tr>
+                            <td>NIRF Ranking</td>
+                            <td>${college1.nirfRanking}</td>
+                            <td>${college2.nirfRanking}</td>
+                        </tr>
+                        <tr>
+                            <td>Global Ranking</td>
+                            <td>${college1.globalRanking}</td>
+                            <td>${college2.globalRanking}</td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>${college1.description}</td>
+                            <td>${college2.description}</td>
+                        </tr>
+                        <tr>
+                            <td>Fees</td>
+                            <td>${college1.fees}</td>
+                            <td>${college2.fees}</td>
+                        </tr>
+                        <tr>
+                            <td>Acceptance Rate</td>
+                            <td>${college1.acceptanceRate}</td>
+                            <td>${college2.acceptanceRate}</td>
+                        </tr>
+                        <tr>
+                            <td>Student-Faculty Ratio</td>
+                            <td>${college1.studentFacultyRatio}</td>
+                            <td>${college2.studentFacultyRatio}</td>
+                        </tr>
+                        <tr>
+                            <td>Rating</td>
+                            <td>${college1.rating ? college1.rating + ' ⭐' : 'Not Rated'}</td>
+                            <td>${college2.rating ? college2.rating + ' ⭐' : 'Not Rated'}</td>
+                        </tr>
+                        <tr>
+                            <td>Website</td>
+                            <td><a href="${college1.website}" target="_blank">Visit</a></td>
+                            <td><a href="${college2.website}" target="_blank">Visit</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        function filterCollegeSelect(selectId, searchId) {
+            const selectElement = document.getElementById(selectId);
+            const searchTerm = document.getElementById(searchId).value.toLowerCase();
+
+            // Clear existing options
+            selectElement.innerHTML = '<option value="">Select College</option>';
+
+            // Add filtered options
+            colleges.forEach(college => {
+                if (college.name.toLowerCase().includes(searchTerm)) {
+                    const option = document.createElement('option');
+                    option.value = college.id;
+                    option.textContent = college.name;
+                    selectElement.appendChild(option);
+                }
+            });
+        }
+
+        // Theme functions
+        function changeTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        // Font Size Function
+        function changeFontSize() {
+            const fontSize = document.getElementById('fontSizeSelect').value;
+            document.body.style.fontSize = fontSize;
+            localStorage.setItem('fontSize', fontSize);
+        }
+
+        // Notification Function
+        function toggleNotifications() {
+            const notificationSetting = document.getElementById('notificationSelect').value;
+            localStorage.setItem('notifications', notificationSetting);
+            alert('Notifications are now ' + notificationSetting); // Basic feedback
+        }
+
+        // Change Password Function
+        function changePassword() {
+            const newPassword = document.getElementById('newPasswordSettings').value;
+            const passwordChangeMessage = document.getElementById('passwordChangeMessage');
+
+            if (!currentUser) {
+                passwordChangeMessage.textContent = 'Not logged in.';
+                return;
+            }
+
+             if (!validatePassword(newPassword)) {
+                passwordChangeMessage.textContent = 'Password does not meet requirements!';
+                return;
+            }
+
+            currentUser.password = newPassword;
+            users[currentUser.username] = currentUser;
+            localStorage.setItem('users', JSON.stringify(users));
+            passwordChangeMessage.textContent = 'Password changed successfully.';
+        }
+
+        function sortColleges(collegesToSort, sortBy) {
+            if (sortBy === 'name') {
+                collegesToSort.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortBy === 'ranking') {
+                collegesToSort.sort((a, b) => {
+                    // Handle "N/A" rankings by placing them at the end
+                    const rankingA = (a.globalRanking === "N/A") ? Infinity : a.globalRanking;
+                    const rankingB = (b.globalRanking === "N/A") ? Infinity : b.globalRanking;
+                    return rankingA - rankingB;
+                });
+            }
+            return collegesToSort;
+        }
+
+        function filterColleges() {
+            const searchTerm = document.getElementById("collegeSearch").value.toLowerCase();
+            const cityFilter = document.getElementById("cityFilter").value.toLowerCase();
+            const stateFilter = document.getElementById("stateFilter").value.toLowerCase();
+            const countryFilter = document.getElementById("countryFilter").value.toLowerCase();
+            const sortValue = document.getElementById("sortSelect").value;
+
+            let filteredColleges = [...colleges]; // Create a copy to avoid modifying the original
+
+            // Apply filters
+            filteredColleges = filteredColleges.filter(college =>
+                college.name.toLowerCase().includes(searchTerm) &&
+                (cityFilter === '' || college.city.toLowerCase().includes(cityFilter)) &&
+                (stateFilter === '' || college.state?.toLowerCase().includes(stateFilter)) && // Use optional chaining
+                (countryFilter === '' || college.country.toLowerCase().includes(countryFilter))
+            );
+
+            // Apply sorting
+            filteredColleges = sortColleges(filteredColleges, sortValue);
+
+            displayColleges(filteredColleges);
+        }
+
+        // About Us Page - Rating and Feedback
+        document.querySelectorAll('.rating-stars .star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.dataset.rating);
+
+                // Set active class on clicked star and previous stars
+                document.querySelectorAll('.rating-stars .star').forEach(s => s.classList.remove('active'));
+                for (let i = 0; i < rating; i++) {
+                    document.querySelectorAll('.rating-stars .star')[i].classList.add('active');
+                }
+
+                // Store the rating (you'll need a backend to persist this)
+                console.log('Rating submitted:', rating);
+
+                // Display a popup comment based on the rating
+                let comment = '';
+                switch (rating) {
+                    case 1:
+                        comment = "We're sorry to hear that. Please tell us how we can improve.";
+                        break;
+                    case 2:
+                        comment = "We appreciate your feedback. We'll work on it.";
+                        break;
+                    case 3:
+                        comment = "Thanks for the neutral feedback. We'll try to do better.";
+                        break;
+                    case 4:
+                        comment = "Great! We're glad you like it. Let us know what we can improve.";
+                        break;
+                    case 5:
+                        comment = "Excellent! We're thrilled you find our app useful!";
+                        break;
+                }
+
+                alert(comment); // Replace with a nicer modal/popup if desired
+            });
+        });
+
+        function submitFeedback() {
+            const feedbackText = document.getElementById('feedbackText').value;
+            console.log('Feedback submitted:', feedbackText);
+            alert('Thank you for your feedback!'); // Replace with a more sophisticated submission method
+            // In a real application, you would send this feedback to a backend server
+        }
+
+        // Initialize theme and font size on page load
+        window.addEventListener('load', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('themeSelect').value = 'dark';
+            }
+
+            const savedFontSize = localStorage.getItem('fontSize');
+            if (savedFontSize) {
+                document.body.style.fontSize = savedFontSize;
+                document.getElementById('fontSizeSelect').value = savedFontSize;
+            }
+
+            const savedNotifications = localStorage.getItem('notifications');
+            document.getElementById('notificationSelect').value = savedNotifications || 'on';
+        });
+    </script>
+</body>
+</html>
